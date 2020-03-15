@@ -1,5 +1,6 @@
 import re
 
+
 def preprocess_into_phrases(text):
     "Split the text into a list of phrases"
 
@@ -11,10 +12,13 @@ def preprocess_into_phrases(text):
     # These are the end of phrases including their punctuation
     odd_elements = split_by_phrases[1::2]
 
-    return ["".join([phrase, end]).strip() for phrase, end in zip(even_elements, odd_elements)]
+    return [
+        "".join([phrase, end]).strip()
+        for phrase, end in zip(even_elements, odd_elements)
+    ]
 
 
-def extract_names_from_phrases(text):
+def extract_names_from_phrases(text, allowed_names):
     # Let's start by downcasing some parts
     word0, rest = text.split(" ", maxsplit=1)
     text1 = " ".join([word0.lower(), rest])
@@ -22,15 +26,20 @@ def extract_names_from_phrases(text):
     # Now let's grab any uppercase consecutive names
     pattern = r"\b(?:[A-Z][a-z]*\b\s*)+"
     names = [name.strip() for name in re.findall(pattern, text1)]
+    names = {name for name in names if name in allowed_names}
 
     return names
 
-def preprocess_names(text):
-    text.strip()
 
-    with open("characters_names.txt", encoding="utf-8") as file:
-        text = file.read()
-    text1 = text.split("\n")
-    for line in text1:
-        char = line.split(" ")
-        char = line.split(",")
+def load_name_list(namelist_filename):
+    names = set()
+    with open(namelist_filename, encoding="utf-8") as file:
+        for line in file:
+            for word in line.split():
+                word = word.replace('.', ' ').replace(',', ' ').strip()
+                if word in ('The', 'and', 'Professor', 'Mr', 'Mrs', 'Madam'):
+                    continue
+
+                names.add(word)
+
+    return names
