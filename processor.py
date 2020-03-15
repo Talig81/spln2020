@@ -31,15 +31,14 @@ def extract_names_from_phrases(text, allowed_names):
     return names
 
 
-def load_name_list(namelist_filename):
+def get_name_list(file):
     names = set()
-    with open(namelist_filename, encoding="utf-8") as file:
-        for line in file:
-            for word in line.split():
-                word = word.replace('.', ' ').replace(',', ' ').strip()
-                if word in ('The', 'and', 'Professor', 'Mr', 'Mrs', 'Madam'):
-                    continue
+    for line in file:
+        for word in line.split():
+            word = word.replace('.', ' ').replace(',', ' ').strip()
+            if word in ('The', 'and', 'Professor', 'Mr', 'Mrs', 'Madam'):
+                continue
 
-                names.add(word)
+            names.add(word)
 
     return names
