@@ -63,7 +63,7 @@ def display_counter(counter):
         if isinstance(key, tuple):
             key = " and ".join(key)
 
-        print(f'{value}\t{key}')
+        print(f"{value}\t{key}")
 
 
 def main():
@@ -114,7 +114,7 @@ except IndexError:
     $ python main.py interactions
 
     # To display all the interactions of a single character
-    $ python main.py interactions_of
+    $ python main.py interactions_of <name>
 
     # To output a dot file with the interaction graph
     $ python main.py graph > graph.dot
