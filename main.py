@@ -23,7 +23,7 @@ def get_interactions_counter(names_per_phrase):
         for pair in mkInteractions(names):
             interactions_counter[pair] += 1
 
-    return interactions_counter
+    return Counter({k: v for k, v in interactions_counter.items() if v > 1})
 
 
 def get_name_counter(names_per_phrase):
